@@ -1,0 +1,22 @@
+<div class="p-d-flex p-jc-center" style="height: 100vh;">
+    <div class="p-mr-2 p-as-center">
+        <input type="text" pInputText [(ngModel)]="link" style="width: 30vw;" />
+        <p-dropdown [options]="formats" [(ngModel)]="selectedFormat" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="p-mr-2 p-as-center">
+        <button pButton type="button" label="Download" type="button" fileSaver
+            [query]="{ url: link, format: selectedFormat }" [method]="'GET'" [fileName]="'test.mp4'" [url]="downLoadUrl"
+            icon="pi pi-download"></button>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
