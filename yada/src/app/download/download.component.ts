@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { DownloaderService } from '../downloader.service';
-
+import { saveAs } from "file-saver";
+import { MessageService } from 'primeng/api';
 interface Format {
     name: string;
     key: string;
@@ -10,7 +11,8 @@ interface Format {
 @Component({
     selector: 'app-download',
     templateUrl: './download.component.html',
-    styleUrls: ['./download.component.css']
+    styleUrls: ['./download.component.css'],
+    providers: [MessageService]
 })
 export class DownloadComponent implements OnInit {
 
@@ -18,9 +20,12 @@ export class DownloadComponent implements OnInit {
     selectedFormat: string;
     downLoadUrl: string;
     link: string;
+    isDownLoading: boolean = false
 
 
-    constructor(private downloaderService: DownloaderService, private sanitazion: DomSanitizer
+    constructor(private downloaderService: DownloaderService
+        , private sanitazion: DomSanitizer
+        , private messageService: MessageService
     ) {
 
         this.formats = [
@@ -32,6 +37,23 @@ export class DownloadComponent implements OnInit {
         this.selectedFormat = this.formats[0].key;
 
         this.downLoadUrl = 'http://192.168.178.38:8000/download?'
+    }
+
+    setDownloadMode() {
+        this.isDownLoading = !this.isDownLoading;
+    }
+
+
+    onSuc(data) {
+        console.log("SUCCESS");
+
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Video heruntergeladen' });
+    }
+
+    onErr(data) {
+        console.log("ERROR");
+
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Fehler beim herunterladen des Videos' });
     }
 
     download() {
